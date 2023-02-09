@@ -62,35 +62,24 @@ export default class Gallery extends Component {
     });
   };
 
-  handleOpenModal = modalImg => {
-    this.setState(prevState => ({
-      modal: !prevState.modal,
-      modalImg: modalImg,
+  toggleModal = imageURL => {
+    this.setState(({ modal }) => ({
+      modal: !modal,
+      modalImg: imageURL,
     }));
   };
 
-  handleCloseModal = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal,
-    }));
-  };
   render() {
     return (
       <>
         <Searchbar onSubmit={this.handleSearch} />
-        <ImageGallery
-          images={this.state.images}
-          onClick={this.handleOpenModal}
-        />
+        <ImageGallery images={this.state.images} onClick={this.toggleModal} />
         {this.state.images.length > 0 && (
           <Button onClick={this.onLoadMoreButton} />
         )}
         {this.state.loader && <Loader />}
         {this.state.modal && (
-          <Modal
-            modalImg={this.state.modalImg}
-            onClick={this.handleCloseModal}
-          />
+          <Modal modalImg={this.state.modalImg} onClose={this.toggleModal} />
         )}
       </>
     );
