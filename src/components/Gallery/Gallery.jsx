@@ -23,20 +23,20 @@ export default class Gallery extends Component {
       prevState.page !== this.state.page
     ) {
       try {
-        const { query, loader, page } = this.state;
-        this.setState({ loader: !loader });
-        await getImage(query, page).then(resp => {
-          if (resp.hits.length) {
-            this.setState(prevState => {
-              return {
-                images: [...prevState.images, ...resp.hits],
-              };
-            });
-          } else {
-            Notify.failure('Error');
-          }
-        });
-      } catch (error) {
+				const { query, loader, page } = this.state;
+				this.setState({ loader: !loader, });
+				const data = await getImage({ q: query, page });
+				if (data.hits.length) {
+					this.setState(prevState => {
+						return {
+							images: [...prevState.images, ...data.hits],
+						};
+					});
+				} else {
+					Notify.failure('Error11');
+				}
+
+			} catch (error) {
         console.log(error);
         Notify.failure('Error');
       } finally {
